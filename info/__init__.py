@@ -16,6 +16,8 @@ from logging.handlers import RotatingFileHandler
 
 from config import config_dict
 
+from info.module.index import index_db
+
 def create_log(config_name):
 
     """记录日志的配置信息"""
@@ -73,5 +75,7 @@ def create_app(config_name): #development-开发环境的app对象 production就
     # flask_session的配置信息
 
     Session(app)
+
+    app.register_blueprint(index_db)
 
     return app
