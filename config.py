@@ -1,5 +1,7 @@
 from redis import StrictRedis
 
+import logging
+
 # 创建项目配置类父类
 class Config(object):
 
@@ -41,15 +43,21 @@ class DevelopmentConfig(Config):
     # 开启debug模式
     DEBUG = True
 
+    #设置开放环境日志级别
+    LOG_LEVEL = logging.DEBUG
+
 class ProductionConfig(Config):
     # 线上模式
     # 关闭debug模式
     DEBUG = False
 
+    # 设置开放环境日志级别
+    LOG_LEVEL = logging.WARNING
+
+
     # SQLALCHEMY_DATABASE_URI = "mysql://root:mysql@阿里云:3306/informtion"
 
 # 接口给外界调用
-
 # config_dict["development"] ---> DevelopmentConfig
 config_dict = {
 
