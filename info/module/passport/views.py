@@ -1,6 +1,6 @@
 from . import passport_bp
 
-from flask import request, abort
+from flask import request, abort,make_response
 
 from info.utlis.captcha.captcha import captcha
 
@@ -45,4 +45,8 @@ def get_imgecode():
     # 4.返回值处理
     # a.将图片对象返回给前端展示
 
-    return image
+    response = make_response(image)
+
+    response.headers["Content-Type"] = "img/html"
+
+    return response
