@@ -93,8 +93,15 @@ def create_app(config_name):  # development-开发环境的app对象 production�
 
     # 为了解决循环导入我们需要延迟导入，我们需要蓝图导入放在真正需要注册蓝图的时候
 
+    # 注册登录首页模块的蓝图
+
     from info.module.index import index_db
 
     app.register_blueprint(index_db)
+
+    # 注册登录注册模块的蓝图
+    from info.module.passport import passport_bp
+
+    app.register_blueprint(passport_bp)
 
     return app
