@@ -16,12 +16,12 @@ from logging.handlers import RotatingFileHandler
 
 from config import config_dict
 
+
 # 为了解决循环导入我们需要延迟导入，我们需要蓝图导入放在真正需要注册蓝图的时候
 
 # from info.module.index import index_db
 
 def create_log(config_name):
-
     """记录日志的配置信息"""
 
     # 设置日志的记录等级
@@ -41,16 +41,18 @@ def create_log(config_name):
     # 为全局的日志工具对象（flask app使用的）添加日志记录器
     logging.getLogger().addHandler(file_log_handler)
 
+
 # 创建数据库对象
 # 没有传入app不会真正的初始化操作，后期看需要调用app
 # 把这个数据库对象放在外面给外界调用
 db = SQLAlchemy()
 
 # 申明类型
-redis_store = None # type:StrictRedis
+redis_store = None  # type:StrictRedis
+
 
 # 工厂方法，根据传入的不同的配置信息，创建不同的app
-def create_app(config_name): #development-开发环境的app对象 production就是生产模式的appp
+def create_app(config_name):  # development-开发环境的app对象 production就是生产模式的appp
 
     # 0.调用日志方法
     create_log(config_name)

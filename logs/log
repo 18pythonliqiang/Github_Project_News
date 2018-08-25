@@ -100,3 +100,168 @@ INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 10:14:23] "GET /static/admin/ima
 INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 10:14:23] "GET /static/admin/html/user_count.html HTTP/1.1" 200 -
 INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 10:14:23] "GET /static/admin/images/icons.png HTTP/1.1" 200 -
 INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 10:14:23] "GET /static/admin/js/echarts.min.js HTTP/1.1" 200 -
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+DEBUG views.py:22 debug日志信息：
+INFO views.py:24 debug日志信息：
+WARNING views.py:26 debug日志信息：
+ERROR views.py:28 debug日志信息：
+CRITICAL views.py:30 debug日志信息：
+DEBUG views.py:32 flask封装的debug日志
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:00:31] "GET / HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:00:31] "GET /favicon.ico HTTP/1.1" 404 -
+INFO _internal.py:88  * Detected change in '/home/python/Desktop/Flask项目新经资讯/info/module/index/views.py', reloading
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88  * Detected change in '/home/python/Desktop/Flask项目新经资讯/info/module/index/views.py', reloading
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88  * Detected change in '/home/python/Desktop/Flask项目新经资讯/info/module/index/views.py', reloading
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+DEBUG views.py:22 debug日志信息：
+INFO views.py:24 debug日志信息：
+WARNING views.py:26 debug日志信息：
+ERROR views.py:28 debug日志信息：
+CRITICAL views.py:30 debug日志信息：
+DEBUG views.py:32 flask封装的debug日志
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:17:59] "GET / HTTP/1.1" 500 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:17:59] "GET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:17:59] "GET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:17:59] "GET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:18:00] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:18:00] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+DEBUG views.py:22 debug日志信息：
+INFO views.py:24 debug日志信息：
+WARNING views.py:26 debug日志信息：
+ERROR views.py:28 debug日志信息：
+CRITICAL views.py:30 debug日志信息：
+DEBUG views.py:32 flask封装的debug日志
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:18:29] "GET / HTTP/1.1" 500 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:18:29] "GET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:18:29] "GET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:18:29] "GET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:18:30] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:18:30] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET / HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/css/reset.css HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/css/main.css HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/js/jquery-1.12.4.min.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/js/main.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/js/index.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/images/logo.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/images/person01.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/images/news_pic.jpg HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/images/person.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:35] "GET /static/news/images/pic_code.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:36] "GET /static/news/images/clock.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:36] "GET /static/news/images/hit_icon.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:26:36] "GET /favicon.ico HTTP/1.1" 404 -
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:27:10] "GET / HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:27:10] "GET /favicon.ico HTTP/1.1" 404 -
+INFO _internal.py:88  * Detected change in '/home/python/Desktop/Flask项目新经资讯/info/module/index/views.py', reloading
+INFO _internal.py:88  * Restarting with stat
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88  * Detected change in '/home/python/Desktop/Flask项目新经资讯/info/module/index/views.py', reloading
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88  * Detected change in '/home/python/Desktop/Flask项目新经资讯/info/module/index/views.py', reloading
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+DEBUG views.py:22 debug日志信息：
+INFO views.py:24 debug日志信息：
+WARNING views.py:26 debug日志信息：
+ERROR views.py:28 debug日志信息：
+CRITICAL views.py:30 debug日志信息：
+DEBUG views.py:32 flask封装的debug日志
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:28:24] "GET / HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:28:24] "GET /favicon.ico HTTP/1.1" 404 -
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+DEBUG views.py:22 debug日志信息：
+INFO views.py:24 debug日志信息：
+WARNING views.py:26 debug日志信息：
+ERROR views.py:28 debug日志信息：
+CRITICAL views.py:30 debug日志信息：
+DEBUG views.py:32 flask封装的debug日志
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:45:18] "GET / HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 15:45:19] "GET /favicon.ico HTTP/1.1" 404 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 16:21:55] "GET /static/news/images/shutoff.png HTTP/1.1" 200 -
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 16:25:24] "GET / HTTP/1.1" 200 -
+INFO _internal.py:88  * Detected change in '/home/python/Desktop/Flask项目新经资讯/info/module/index/views.py', reloading
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88  * Detected change in '/home/python/Desktop/Flask项目新经资讯/info/module/index/views.py', reloading
+INFO _internal.py:88  * Restarting with stat
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 16:36:10] "GET / HTTP/1.1" 200 -
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 16:38:07] "GET / HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 16:41:32] "GET /favicon.ico HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 16:41:40] "GET /favicon.ico HTTP/1.1" 304 -
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:41] "GET / HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/css/reset.css HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/css/main.css HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/js/jquery-1.12.4.min.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/js/main.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/js/index.js HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/images/logo.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/images/person01.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/images/news_pic.jpg HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/images/person.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/images/pic_code.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/images/clock.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /static/news/images/hit_icon.png HTTP/1.1" 200 -
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 17:28:42] "GET /favicon.ico HTTP/1.1" 200 -
+INFO _internal.py:88  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:88  * Restarting with stat
+WARNING _internal.py:88  * Debugger is active!
+INFO _internal.py:88  * Debugger PIN: 619-516-881
+INFO _internal.py:88 127.0.0.1 - - [25/Aug/2018 19:40:57] "GET / HTTP/1.1" 200 -
