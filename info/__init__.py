@@ -16,7 +16,9 @@ from logging.handlers import RotatingFileHandler
 
 from config import config_dict
 
-from info.module.index import index_db
+# 为了解决循环导入我们需要延迟导入，我们需要蓝图导入放在真正需要注册蓝图的时候
+
+# from info.module.index import index_db
 
 def create_log(config_name):
 
@@ -39,6 +41,14 @@ def create_log(config_name):
     # 为全局的日志工具对象（flask app使用的）添加日志记录器
     logging.getLogger().addHandler(file_log_handler)
 
+# 创建数据库对象
+# 没有传入app不会真正的初始化操作，后期看需要调用app
+# 把这个数据库对象放在外面给外界调用
+db = SQLAlchemy()
+
+# 申明类型
+redis_store = None # type:StrictRedis
+
 # 工厂方法，根据传入的不同的配置信息，创建不同的app
 def create_app(config_name): #development-开发环境的app对象 production就是生产模式的appp
 
@@ -49,7 +59,6 @@ def create_app(config_name): #development-开发环境的app对象 production就
     app = Flask(__name__)
 
     # 注册配置信息到app中
-
     # config_dict["development"]--->DevelopmentConfig
     # config_dict["producttion"]--->ProductionConfig
     config_class = config_dict[config_name]
@@ -57,7 +66,11 @@ def create_app(config_name): #development-开发环境的app对象 production就
     app.config.from_object(config_class)
 
     # 创建数据库对象
-    db = SQLAlchemy(app)
+    # 懒加载
+    db.init_app(app)
+
+    # 延迟加载
+    global redis_store
 
     # 创建redis数据库对象
     redis_store = StrictRedis(host=config_class.REDIS_HOST,
@@ -75,6 +88,10 @@ def create_app(config_name): #development-开发环境的app对象 production就
     # flask_session的配置信息
 
     Session(app)
+
+    # 为了解决循环导入我们需要延迟导入，我们需要蓝图导入放在真正需要注册蓝图的时候
+
+    from info.module.index import index_db
 
     app.register_blueprint(index_db)
 
