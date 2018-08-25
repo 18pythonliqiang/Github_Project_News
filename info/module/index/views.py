@@ -6,6 +6,8 @@ from  . import index_db
 
 from info import redis_store
 
+from info import models
+
 # ImportError: cannot import name 'redis_store' 出现循环导入
 
 # 使用蓝图

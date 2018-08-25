@@ -3,3 +3,5 @@
 *.py[ocd]
 
 log/logs
+
+migrations
