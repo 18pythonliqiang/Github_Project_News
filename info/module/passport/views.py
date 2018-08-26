@@ -45,8 +45,13 @@ def get_imgecode():
     # 4.返回值处理
     # a.将图片对象返回给前端展示
 
+    # 创建响应对象
     response = make_response(image)
 
-    response.headers["Content-Type"] = "img/html"
+    # 设置响应对象中响应头内容的类型
+
+    response.headers["Content-Type"] = "image/jpeg"
+
+    # 返回响应对象
 
     return response
