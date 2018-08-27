@@ -79,11 +79,13 @@ def create_app(config_name):  # development-开发环境的app对象 production�
 
                               port=config_class.REDIS_PORT,
 
-                              db=config_class.REDIS_NUM, )
+                              db=config_class.REDIS_NUM,
+
+                              decode_responses=True)
 
     # 开启flask后端csrf验证保护机制
 
-    csrf = CSRFProtect(app)
+    # csrf = CSRFProtect(app)
 
     # 借助第三方session类去调整flask中的session存储位置
 

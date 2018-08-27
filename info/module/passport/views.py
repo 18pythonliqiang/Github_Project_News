@@ -1,12 +1,12 @@
 from . import passport_bp
 
-from flask import request, abort, make_response, json, jsonify, current_app
+from flask import request, abort, make_response, json, jsonify, current_app,session
 
 from info.utlis.captcha.captcha import captcha
 
 from info.utlis.response_code import RET
 
-from info import redis_store, constants
+from info import redis_store, constants,db
 
 import re
 
@@ -15,6 +15,8 @@ from info.models import User
 from info.lib.yuntongxun.sms import CCP
 
 import random
+
+from datetime import datetime
 
 
 # 127.0.0.1:5000/passport/image_code
@@ -180,3 +182,113 @@ def send_sms():
     # a.告诉前端发送短信验证码成功，注意查收
 
     return jsonify(errno=RET.OK, errmsg="发送短信验证码成功")
+
+# 127.0.0.1:5000/passport/register,POST请求方式
+@passport_bp.route("/register",methods = ["POST"])
+def register():
+
+    """用户注册接口"""
+
+#   1.获取参数
+#   a.手机号码，用户填写的短信验证码，密码（没有加密）
+    params_dict = request.json
+
+    mobile = params_dict.get("mobile") #手机号码
+
+    smscode = params_dict.get("smscode") #用户填写的短信验证码
+
+    password = params_dict.get("password") #密码
+
+#   2.校验参数
+
+#   a.非空判断
+    if not all([mobile,smscode,password]):
+
+        return jsonify(errno = RET.PARAMERR , errmsg = "参数不足")
+
+#    b.手机号码格式校验
+
+    if not re.match("^1[356789][0-9]{9}$",mobile):
+
+        return jsonify(errno = RET.PARAMERR , errmsg = "手机号码格式错误")
+
+#   3.逻辑处理
+
+#   a.根据手机号拼接SMS_13065130350这个key取货去真实的短信验证码
+
+    try:
+
+        real_sms_code = redis_store.get("SMS_%s"%mobile)
+
+        if real_sms_code:
+
+            redis_store.delete("SMS_%s"%mobile)
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+        return jsonify(errno = RET.DBERR , errmsg = "获取短信验证数据库异常")
+
+    # 不想对此校验同一个短信验证码，当取出真实值的时候把把从数据库删除
+
+    if not real_sms_code:
+
+#         没有值表示过期了
+
+        return jsonify(errno = RET.NODATA , errmsg = "短信验证已过期")
+
+#   b.对比用户添加的短信验证号码和真实的验证码对比
+    if smscode != real_sms_code:
+
+        return jsonify(errno = RET.PARAMERR , errmsg = "短信验证填写错误")
+
+#   c.根据User模型创建用户对象，保存到数据库
+
+    # 创建用户对象给属性赋值
+    user = User()
+
+    user.mobile = mobile
+
+    user.nick_name = mobile
+
+    # TODO: 需要将密码加密后赋值给password_hash
+
+    # user.password_hash
+    # user.make_password_hash(password)
+
+    user.password = password
+
+    # 记录用户最后一次登录时间
+    user.last_login = datetime.now()
+
+    try:
+
+        db.session.add(user)
+
+        db.session.commit()
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+#         回滚
+        db.session.rollback()
+
+        return jsonify(errno=RET.DBERR, errmsg="保存用户数据到数据库异常")
+
+#   d.用户注册成功，第一次给用户自动登录，使用session存储用户信息
+
+        session["user_id"] = user.id
+
+        session["mobile"] = user.mobile
+
+        session["nick_name"] = user.nick_name
+
+#     4.返回值处理
+
+    return jsonify(errno=RET.OK, errmsg="注册成功")
+
+
+
+
