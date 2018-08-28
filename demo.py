@@ -26,3 +26,31 @@ if __name__ == '__main__':
     p.password = "1234"
 
     print(p.password)
+
+import functools
+
+def login_user_data(a):
+
+    @functools.wraps(a)
+    def wrapper(*args,**kwargs):
+
+
+        return a(*args,**kwargs)
+
+    return wrapper
+
+@login_user_data
+def index():
+
+    print("index")
+
+@login_user_data
+def hello():
+
+    print("hello")
+
+if __name__ == '__main__':
+
+    print(index.__name__)
+
+    print(hello.__name__)
