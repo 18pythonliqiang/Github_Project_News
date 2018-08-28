@@ -1,10 +1,11 @@
+
 from flask import Flask
 
 from flask_sqlalchemy import SQLAlchemy
 
 from redis import StrictRedis
 
-from flask_wtf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect,generate_csrf
 
 from config import config_dict
 
@@ -20,6 +21,8 @@ from config import config_dict
 # 为了解决循环导入我们需要延迟导入，我们需要蓝图导入放在真正需要注册蓝图的时候
 
 # from info.module.index import index_db
+from info.utlis.common import do_index_class
+
 
 def create_log(config_name):
     """记录日志的配置信息"""
@@ -85,13 +88,33 @@ def create_app(config_name):  # development-开发环境的app对象 production�
 
     # 开启flask后端csrf验证保护机制
 
-    # csrf = CSRFProtect(app)
+    csrf = CSRFProtect(app)
 
     # 借助第三方session类去调整flask中的session存储位置
 
     # flask_session的配置信息
 
     Session(app)
+
+    @app.after_request
+
+    def set_csrf_token(response):
+
+        # 给前端cookie中设置csrf_token
+
+    # 1.生成csrf_token随机字符串
+
+        csrf_token = generate_csrf()
+
+        # 2.借助response对象在cookie里面带上csrf_token
+
+        response.set_cookie("csrf_token",csrf_token)
+
+        return response
+
+    # 注册过滤器
+
+    app.add_template_filter(do_index_class,"do_index_class")
 
     # 为了解决循环导入我们需要延迟导入，我们需要蓝图导入放在真正需要注册蓝图的时候
 

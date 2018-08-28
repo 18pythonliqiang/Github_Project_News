@@ -97,6 +97,8 @@ $(function () {
 
     // TODO 登录表单提交
     $(".login_form_con").submit(function (e) {
+
+        //阻止表单默认提交行为，用ajax发送请求
         e.preventDefault()
         var mobile = $(".login_form #mobile").val()
         var password = $(".login_form #password").val()
@@ -111,13 +113,64 @@ $(function () {
             return;
         }
 
-        // 发起登录请求
-    })
+        var params = {
 
+            "mobile":mobile,
+
+            "password":password
+
+        }
+        // 发起登录请求
+        // 发起注册请求
+        $.ajax({
+
+        // 设置url
+        url:"/passport/login",
+
+        // 设置请求方式
+            type : "post",
+
+         // 将js对象转换成json字符串发送给后端
+
+            data:JSON.stringify(params),
+
+         // 声明上传的数据内容格式是 json字符串
+
+            contentType:"application/json",
+
+            dataType:"json",
+
+             headers:{
+
+            "X-CSRFToken":getCookie("csrf_token")
+
+        },
+
+            success:function (resp) {
+
+            if(resp.errno == "0"){
+
+            // 返回成功 刷新页面
+                location.reload()
+
+
+            }else{
+
+                $("#register-password-err").html(resp.errmsg)
+                $("#register-password-err").show()
+
+            }
+
+            }
+
+        })
+
+    })
 
     // TODO 注册按钮点击
     $(".register_form_con").submit(function (e) {
         // 阻止默认提交操作
+        //使用ajax来提交
         e.preventDefault()
 
         // 取到用户输入的内容
@@ -147,8 +200,105 @@ $(function () {
 
         // 发起注册请求
 
+        //组织请求数据，JS对象
+        var params = {
+
+            "mobile":mobile,
+
+            "smscode":smscode,
+
+            "password":password
+        }
+
+        $.ajax({
+
+            url:"/passport/register",
+
+            type:"post",
+
+            //装换成json字符串
+            data:JSON.stringify(params),
+
+            contentType:"application/json",
+
+            dataType:"json",
+
+             headers:{
+
+            "X-CSRFToken":getCookie("csrf_token")
+
+        },
+
+            success:function (resp) {
+
+                if(resp.errno == "0"){
+
+                    //注册成功回调
+
+                    location.reload()
+                }else {
+
+                    $("#login-password-err").html(resp.errmsg)
+                    $("#login-password-err").show()
+                }
+
+            }
+
+
+
+        })
+
     })
 })
+
+
+function login_out() {
+
+        // 退出登录前端接口
+
+        // 退出登录请求
+
+    $.ajax({
+
+    //    设置url
+
+        url:"/passport/login_out",
+
+         // 设置请求方式
+
+        type:"post",
+
+     // 在请求头里面带上csrf_token随机值
+
+        headers:{
+
+            "X-CSRFToken":getCookie("csrf_token")
+
+        },
+
+        dataType:"json",
+
+        success:function (resp) {
+
+            if(resp.errno == "0"){
+
+                // 返回成功 刷新页面
+            location.reload()
+
+
+            }else {
+
+
+            }
+
+        }
+
+
+    })
+
+
+
+}
 
 var imageCodeId = ""
 

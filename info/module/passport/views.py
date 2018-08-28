@@ -289,6 +289,107 @@ def register():
 
     return jsonify(errno=RET.OK, errmsg="注册成功")
 
+@passport_bp.route("/login",methods = ["POST"])
+
+def login():
+    """登录接口"""
+
+# 1.获取参数
+
+# a.手机号码，密码（没有加密）
+
+    params_dict = request.json
+
+    mobile = params_dict.get("mobile")
+
+    password = params_dict.get("password")
+
+# 2.校验参数
+
+# a非空判断
+
+    if not all([mobile,password]):
+
+        return jsonify(errno = RET.PARAMERR , errmsg = "参数不足")
+
+# b手机号码格式
+
+    if not re.match("^1[356789][0-9]{9}$",mobile):
+
+        return jsonify(errno = RET.PARAMERR , errmsg = "手机号码格式错误")
+
+# 3.逻辑处理
+
+# a根据手机号码查询用户对象
+
+    try:
+
+        user =User.query.filter_by(mobile = mobile).first()
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+        return jsonify(errno = RET.DBERR , errmsg = "查询用户对象异常")
+
+    if not user:
+
+        return jsonify(errno = RET.NODATA , errmsg = "用户不存在")
+
+# b对比用户填写的密码，和用户对象中的密码一致
+
+    if not user.check_passowrd(password):
+
+        return jsonify(errno=RET.DATAERR, errmsg="密码填写错误")
+
+# c一致，记录最后一次登录密码的时间，使用session记录用户登录信息
+
+    session["user_id"]  = user.id
+
+    session["mobile"] = user.mobile
+
+    session["nick_name"]  = user.nick_name
+
+    user.last_login = datetime.now()
+
+    # 当修改了user模型身上属性的时候，不需要add只需要commit
+
+    try:
+        db.session.commit()
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+        db.session.rollback()
+
+        return jsonify(errno=RET.DBERR, errmsg="用户对象保存到数据库异常")
+
+# 4.返回值处理
+
+    return jsonify(errno = RET.OK,errmsg = "登录成功")
+
+@passport_bp.route("/login_out",methods = ["POST"])
+
+def login_out():
+
+    """退出登录接口"""
+
+#     清楚session保存的用户信息
+
+    session.pop("user_id")
+
+    session.pop("nick_name")
+
+    session.pop("mobile")
+
+    return jsonify(errno=RET.OK, errmsg="退出登录成功")
+
+
+
+
+
+
 
 
 
