@@ -1,7 +1,7 @@
 var currentCid = 1; // 当前分类 id
 var cur_page = 1; // 当前页
 var total_page = 1;  // 总页数
-var data_querying = true;   // 是否正在向后台获取数据
+var data_querying = true;   // 是否正在向后台获取数据,数据正在加载
 
 
 $(function () {
@@ -9,16 +9,25 @@ $(function () {
     //请求新闻列表数据
 
     updateNewsData()
+
     // 首页分类切换
+
     $('.menu li').click(function () {
+
         var clickCid = $(this).attr('data-cid')
+
         $('.menu li').each(function () {
+
             $(this).removeClass('active')
+
         })
+
         $(this).addClass('active')
 
         if (clickCid != currentCid) {
+
             // 记录当前分类id
+
             currentCid = clickCid
 
             // 重置分页参数
@@ -45,6 +54,35 @@ $(function () {
 
         if ((canScrollHeight - nowScroll) < 100) {
             // TODO 判断页数，去更新新闻数据
+
+               //数据加载完毕了
+            if (!data_querying){
+
+
+                cur_page += 1
+
+            //    保证页码不会超过总页数
+
+                if(cur_page < total_page){
+
+                //    表示正在加载数据，其他地方就不能再去加载
+
+                    data_querying = true
+
+                    updateNewsData()
+
+
+                } else {
+
+                //    当页码查过总页数就不能让他加载更多数据
+
+                    data_querying = true
+                }
+
+
+            }
+
+
         }
     })
 })
@@ -61,9 +99,26 @@ function updateNewsData() {
 
     $.get("/news_list", params, function (resp) {
         if(resp.errno == "0"){
-            // 请求到新闻的列表数据成功回调
+
+            //设置总页数
+
+            total_page = resp.data.total_page
+
+            //数据加载完毕了，没人在加载数据
+
+            data_querying = false
+
+// 求到新闻的列表数据成功回调
+
             // 先清空原有数据
-            $(".list_con").html('')
+            //只有当当夜数是第一页的时候才需要清除
+
+            if (cur_page == 1){
+
+                $(".list_con").html('')
+
+            }
+
             // 显示数据
             for (var i=0;i<resp.data.newsList.length;i++) {
                 var news = resp.data.newsList[i]
