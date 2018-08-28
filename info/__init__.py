@@ -129,4 +129,10 @@ def create_app(config_name):  # development-开发环境的app对象 production�
 
     app.register_blueprint(passport_bp)
 
+    # 注册新闻注册模块的蓝图
+
+    from info.module.news import news_db
+
+    app.register_blueprint(news_db)
+
     return app

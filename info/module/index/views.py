@@ -75,7 +75,6 @@ def index():
     category_dict_list = []
 
     for category in categories if categories else []:
-
         # 将分类对象转成字典对象添加到列表
 
         category_dict_list.append(category.to_dict())

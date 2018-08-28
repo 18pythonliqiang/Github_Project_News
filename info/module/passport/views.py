@@ -1,12 +1,12 @@
 from . import passport_bp
 
-from flask import request, abort, make_response, json, jsonify, current_app,session
+from flask import request, abort, make_response, json, jsonify, current_app, session
 
 from info.utlis.captcha.captcha import captcha
 
 from info.utlis.response_code import RET
 
-from info import redis_store, constants,db
+from info import redis_store, constants, db
 
 import re
 
@@ -69,7 +69,7 @@ def get_imgecode():
     return response
 
 
-@passport_bp.route("/sms_code",methods = ["POST"])
+@passport_bp.route("/sms_code", methods=["POST"])
 def send_sms():
     """发送短信验证的接口"""
 
@@ -183,67 +183,62 @@ def send_sms():
 
     return jsonify(errno=RET.OK, errmsg="发送短信验证码成功")
 
-# 127.0.0.1:5000/passport/register,POST请求方式
-@passport_bp.route("/register",methods = ["POST"])
-def register():
 
+# 127.0.0.1:5000/passport/register,POST请求方式
+@passport_bp.route("/register", methods=["POST"])
+def register():
     """用户注册接口"""
 
-#   1.获取参数
-#   a.手机号码，用户填写的短信验证码，密码（没有加密）
+    #   1.获取参数
+    #   a.手机号码，用户填写的短信验证码，密码（没有加密）
     params_dict = request.json
 
-    mobile = params_dict.get("mobile") #手机号码
+    mobile = params_dict.get("mobile")  # 手机号码
 
-    smscode = params_dict.get("smscode") #用户填写的短信验证码
+    smscode = params_dict.get("smscode")  # 用户填写的短信验证码
 
-    password = params_dict.get("password") #密码
+    password = params_dict.get("password")  # 密码
 
-#   2.校验参数
+    #   2.校验参数
 
-#   a.非空判断
-    if not all([mobile,smscode,password]):
+    #   a.非空判断
+    if not all([mobile, smscode, password]):
+        return jsonify(errno=RET.PARAMERR, errmsg="参数不足")
 
-        return jsonify(errno = RET.PARAMERR , errmsg = "参数不足")
+    #    b.手机号码格式校验
 
-#    b.手机号码格式校验
+    if not re.match("^1[356789][0-9]{9}$", mobile):
+        return jsonify(errno=RET.PARAMERR, errmsg="手机号码格式错误")
 
-    if not re.match("^1[356789][0-9]{9}$",mobile):
+    #   3.逻辑处理
 
-        return jsonify(errno = RET.PARAMERR , errmsg = "手机号码格式错误")
-
-#   3.逻辑处理
-
-#   a.根据手机号拼接SMS_13065130350这个key取货去真实的短信验证码
+    #   a.根据手机号拼接SMS_13065130350这个key取货去真实的短信验证码
 
     try:
 
-        real_sms_code = redis_store.get("SMS_%s"%mobile)
+        real_sms_code = redis_store.get("SMS_%s" % mobile)
 
         if real_sms_code:
-
-            redis_store.delete("SMS_%s"%mobile)
+            redis_store.delete("SMS_%s" % mobile)
 
     except Exception as e:
 
         current_app.logger.error(e)
 
-        return jsonify(errno = RET.DBERR , errmsg = "获取短信验证数据库异常")
+        return jsonify(errno=RET.DBERR, errmsg="获取短信验证数据库异常")
 
     # 不想对此校验同一个短信验证码，当取出真实值的时候把把从数据库删除
 
     if not real_sms_code:
+        #         没有值表示过期了
 
-#         没有值表示过期了
+        return jsonify(errno=RET.NODATA, errmsg="短信验证已过期")
 
-        return jsonify(errno = RET.NODATA , errmsg = "短信验证已过期")
-
-#   b.对比用户添加的短信验证号码和真实的验证码对比
+    #   b.对比用户添加的短信验证号码和真实的验证码对比
     if smscode != real_sms_code:
+        return jsonify(errno=RET.PARAMERR, errmsg="短信验证填写错误")
 
-        return jsonify(errno = RET.PARAMERR , errmsg = "短信验证填写错误")
-
-#   c.根据User模型创建用户对象，保存到数据库
+    #   c.根据User模型创建用户对象，保存到数据库
 
     # 创建用户对象给属性赋值
     user = User()
@@ -272,12 +267,12 @@ def register():
 
         current_app.logger.error(e)
 
-#         回滚
+        #         回滚
         db.session.rollback()
 
         return jsonify(errno=RET.DBERR, errmsg="保存用户数据到数据库异常")
 
-#   d.用户注册成功，第一次给用户自动登录，使用session存储用户信息
+        #   d.用户注册成功，第一次给用户自动登录，使用session存储用户信息
 
         session["user_id"] = user.id
 
@@ -285,18 +280,18 @@ def register():
 
         session["nick_name"] = user.nick_name
 
-#     4.返回值处理
+    #     4.返回值处理
 
     return jsonify(errno=RET.OK, errmsg="注册成功")
 
-@passport_bp.route("/login",methods = ["POST"])
 
+@passport_bp.route("/login", methods=["POST"])
 def login():
     """登录接口"""
 
-# 1.获取参数
+    # 1.获取参数
 
-# a.手机号码，密码（没有加密）
+    # a.手机号码，密码（没有加密）
 
     params_dict = request.json
 
@@ -304,51 +299,47 @@ def login():
 
     password = params_dict.get("password")
 
-# 2.校验参数
+    # 2.校验参数
 
-# a非空判断
+    # a非空判断
 
-    if not all([mobile,password]):
+    if not all([mobile, password]):
+        return jsonify(errno=RET.PARAMERR, errmsg="参数不足")
 
-        return jsonify(errno = RET.PARAMERR , errmsg = "参数不足")
+    # b手机号码格式
 
-# b手机号码格式
+    if not re.match("^1[356789][0-9]{9}$", mobile):
+        return jsonify(errno=RET.PARAMERR, errmsg="手机号码格式错误")
 
-    if not re.match("^1[356789][0-9]{9}$",mobile):
+    # 3.逻辑处理
 
-        return jsonify(errno = RET.PARAMERR , errmsg = "手机号码格式错误")
-
-# 3.逻辑处理
-
-# a根据手机号码查询用户对象
+    # a根据手机号码查询用户对象
 
     try:
 
-        user =User.query.filter_by(mobile = mobile).first()
+        user = User.query.filter_by(mobile=mobile).first()
 
     except Exception as e:
 
         current_app.logger.error(e)
 
-        return jsonify(errno = RET.DBERR , errmsg = "查询用户对象异常")
+        return jsonify(errno=RET.DBERR, errmsg="查询用户对象异常")
 
     if not user:
+        return jsonify(errno=RET.NODATA, errmsg="用户不存在")
 
-        return jsonify(errno = RET.NODATA , errmsg = "用户不存在")
-
-# b对比用户填写的密码，和用户对象中的密码一致
+    # b对比用户填写的密码，和用户对象中的密码一致
 
     if not user.check_passowrd(password):
-
         return jsonify(errno=RET.DATAERR, errmsg="密码填写错误")
 
-# c一致，记录最后一次登录密码的时间，使用session记录用户登录信息
+    # c一致，记录最后一次登录密码的时间，使用session记录用户登录信息
 
-    session["user_id"]  = user.id
+    session["user_id"] = user.id
 
     session["mobile"] = user.mobile
 
-    session["nick_name"]  = user.nick_name
+    session["nick_name"] = user.nick_name
 
     user.last_login = datetime.now()
 
@@ -365,17 +356,16 @@ def login():
 
         return jsonify(errno=RET.DBERR, errmsg="用户对象保存到数据库异常")
 
-# 4.返回值处理
+    # 4.返回值处理
 
-    return jsonify(errno = RET.OK,errmsg = "登录成功")
+    return jsonify(errno=RET.OK, errmsg="登录成功")
 
-@passport_bp.route("/login_out",methods = ["POST"])
 
+@passport_bp.route("/login_out", methods=["POST"])
 def login_out():
-
     """退出登录接口"""
 
-#     清楚session保存的用户信息
+    #     清楚session保存的用户信息
 
     session.pop("user_id")
 
@@ -384,12 +374,3 @@ def login_out():
     session.pop("mobile")
 
     return jsonify(errno=RET.OK, errmsg="退出登录成功")
-
-
-
-
-
-
-
-
-
