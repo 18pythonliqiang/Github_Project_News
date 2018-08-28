@@ -14,7 +14,11 @@ $(function () {
 
     $('.menu li').click(function () {
 
+        //获取分类id
+
         var clickCid = $(this).attr('data-cid')
+
+        //取消分类id
 
         $('.menu li').each(function () {
 
@@ -33,6 +37,8 @@ $(function () {
             // 重置分页参数
             cur_page = 1
             total_page = 1
+
+            //请求当前分类的数据
             updateNewsData()
         }
     })
