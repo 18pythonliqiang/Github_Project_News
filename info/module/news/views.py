@@ -1,4 +1,4 @@
-from info import constants
+from info import constants, db
 
 from info.models import User, News
 
@@ -6,7 +6,7 @@ from . import news_db
 
 from info.utlis.common import login_user_data
 
-from flask import render_template, session, current_app, g
+from flask import render_template, session, current_app, g, abort
 
 
 # 127.0.0.1:5000/news/2
@@ -33,11 +33,46 @@ def news_detail(news_id):
 
         news_dict_list.append(news.to_dict())
 
+
+
+    # ---------------------3.新闻详情数据----------------------------
+
+    try:
+
+        news = News.query.get(news.id)
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+    if not news:
+
+        abort(404)
+
+    #     浏览量自增
+
+    news.clicks += 1
+
+    # 将模型对象的修改提交到数据库
+    try:
+
+        db.session.commit()
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+        db.session.rollback()
+
+        abort(404)
+
     data = {
 
         "user_info": user.to_dict() if user else None,
 
         "newsClicksList": news_dict_list,
+
+        "news": news.to_dict()
     }
 
     # 新闻详情页
