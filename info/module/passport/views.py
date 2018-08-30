@@ -133,7 +133,7 @@ def send_sms():
 
         return jsonify(errno=RET.DATAERR, errmsg="验证码填写错误")
 
-    # g.根据手机号码验证查询手机号码是否验证
+    # g.根据手机号码验证查询手机号码是否已经注册
     try:
 
         user = User.query.filter_by(mobile=mobile).first()

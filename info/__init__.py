@@ -135,4 +135,10 @@ def create_app(config_name):  # development-开发环境的app对象 production�
 
     app.register_blueprint(news_db)
 
+    # 注册个人中心注册模块的蓝图
+
+    from info.module.profile import profile_bp
+
+    app.register_blueprint(profile_bp)
+
     return app
