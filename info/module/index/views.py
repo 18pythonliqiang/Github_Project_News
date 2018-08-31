@@ -140,7 +140,7 @@ def get_news_list():
     # 3.逻辑处理
     #     1.根据分类id查询数据，根据新闻的创建时间降序排序，然后进行分页处理
 
-    filters = []
+    filters = [News.status == 0]
 
     if cid != 1:
         filters.append(News.category_id == cid)

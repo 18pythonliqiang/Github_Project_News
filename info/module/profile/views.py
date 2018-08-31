@@ -364,3 +364,70 @@ def news_release():
     # 4.返回值处理
     return jsonify(errno=RET.OK, errmsg="新闻发布成功")
 
+
+@profile_bp.route("/news_list")
+@login_user_data
+def news_list():
+    # 用户收藏列表展示
+
+    # 1.获取参数
+    p = request.args.get("p", 1)
+
+    user = g.user
+
+    # 2.校验参数
+
+    try:
+
+        p = int(p)
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+        p = 1
+
+    # 3.逻辑处理
+
+    # lazy = "dynamic"如果真正用到里面的值，就会给你返回一个列表数据，如果只是简单的查询就会返回一个查询对象
+
+    news_list = []
+
+    current_page = 1
+
+    total_page = 1
+
+    if user:
+
+        try:
+            paginate = News.query.filter(News.user_id == user.id).paginate(p, constants.USER_COLLECTION_MAX_NEWS, False)
+
+            news_list = paginate.items
+
+            current_page = paginate.page
+
+            total_page = paginate.pages
+
+        except Exception as e:
+
+            current_app.logger.error(e)
+
+    # 新闻对象列表转成字典列表
+
+    news_dict_list = []
+
+    for news in news_list if news_list else []:
+        news_dict_list.append(news.to_review_dict())
+
+    data = {
+
+        "news_list": news_list,
+
+        "current_page": current_page,
+
+        "total_page": total_page
+    }
+
+    # 4.返回值
+
+    return render_template("news/user_news_list.html", data=data)
