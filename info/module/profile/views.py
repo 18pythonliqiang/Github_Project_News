@@ -195,3 +195,70 @@ def pass_info():
 
     #     返回值
     return jsonify(errno=RET.OK, errmsg="修改密码成功")
+
+
+@profile_bp.route("/collection")
+@login_user_data
+def collection():
+    # 用户收藏的列表
+    # 1.获取参数
+    # /user/collection?p=
+    p = request.args.get("p", 1)
+
+    user = g.user
+
+    # 2.参数校验
+
+    try:
+
+        p = int(p)
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+        p = 1
+
+    # 3.逻辑处理
+
+    # lazy="dynamic"如果真正用到里面的值，就会给你返回一个列表数据，如果只是简单的擦讯就会返回一个查询对象给你
+    news_list = []
+
+    current_page = 1
+
+    total_page = 1
+
+    if user:
+
+        try:
+
+            paginate = user.collection_news.paginate(p, constants.USER_COLLECTION_MAX_NEWS, False)
+
+            news_list = paginate.items
+
+            current_page = paginate.page
+
+            total_page = paginate.pages
+
+
+        except Exception as e:
+
+            current_app.logger.error(e)
+
+    # 新闻对象列表转成字典对象
+
+    news_dict_list = []
+
+    for news in news_list if news_list else []:
+        news_dict_list.append(news.to_review_dict())
+
+    data = {
+
+        "collections": news_dict_list,
+
+        "current_page": current_page,
+
+        "total_page": total_page
+    }
+    # 4.返回值
+    return render_template("news/user_collection.html", data=data)
