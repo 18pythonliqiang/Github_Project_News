@@ -93,7 +93,7 @@ def pic_info():
     user = g.user
 
     if request.method == "GET":
-        return render_template("news/user_pic_info.html",data ={"user_info": user.to_dict()})
+        return render_template("news/user_pic_info.html", data={"user_info": user.to_dict()})
 
     # 获取用户上传的图片二进制数据上传到七牛云
     try:
@@ -147,3 +147,51 @@ def pic_info():
         "avatar_data": full_url
     }
     return jsonify(errno=RET.OK, errmsg="上传图片到七牛云成功", data=data)
+
+
+@profile_bp.route("/pass_info", methods=["POST", "GET"])
+@login_user_data
+def pass_info():
+    #     展示修改密码页面，修改密码后端逻辑
+    if request.method == "GET":
+        return render_template("news/user_pass_info.html")
+
+    #     POST请求修改密码
+
+    # 1.修改参数
+
+    old_password = request.json.get("old_password")
+
+    new_password = request.json.get("new_password")
+
+    user = g.user
+
+    #   2.校验参数
+
+    if not all([old_password, new_password]):
+        return jsonify(errno=RET.PARAMERR, errmsg="参数不足")
+
+    if not user:
+        return jsonify(errno=RET.SESSIONERR, errmsg="用户未登录")
+
+    #     3.逻辑处理
+
+    if not user.check_passowrd(old_password):
+        return jsonify(errno=RET.PARAMERR, errmsg="旧密码填写错误")
+
+    #     将新的密码赋值给password属性
+
+    user.password = new_password
+
+    try:
+
+        db.session.commit()
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+        return jsonify(errno=RET.DBERR, errmsg="保存用户对象异常")
+
+    #     返回值
+    return jsonify(errno=RET.OK, errmsg="修改密码成功")

@@ -156,8 +156,8 @@ $(function () {
 
             }else{
 
-                $("#register-password-err").html(resp.errmsg)
-                $("#register-password-err").show()
+                $("#login-password-err").html(resp.errmsg)
+                $("#login-password-err").show()
 
             }
 
