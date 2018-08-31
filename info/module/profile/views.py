@@ -1,5 +1,7 @@
 from info import db, constants
 
+from info.models import Category, News
+
 from info.utlis.response_code import RET
 
 from . import profile_bp
@@ -262,3 +264,103 @@ def collection():
     }
     # 4.返回值
     return render_template("news/user_collection.html", data=data)
+
+
+@profile_bp.route("/news_release", methods=["POST", "GET"])
+@login_user_data
+def news_release():
+    # 展示新闻发布页面，发布新闻的后端逻辑
+
+    if request.method == "GET":
+
+        try:
+            categories = Category.query.all()
+
+        except Exception as e:
+
+            current_app.logger.error(e)
+
+        # 分类对象列表转成字典
+
+        category_dict_list = []
+
+        for category in categories if constants else []:
+            category_dict_list.append(category.to_dict())
+
+        # 移除  最新这一  分类
+
+        category_dict_list.pop(0)
+
+        return render_template("news/user_news_release.html", data={"categories": category_dict_list})
+
+    # POST发布新闻
+    # 1.获取参数
+
+    title = request.form.get("title")  # 新闻标题
+
+    category_id = request.form.get("category_id")  # 新闻分类_id
+
+    digest = request.form.get("digest")  # 新闻摘要
+
+    index_image = request.files.get("index_image")  # 索引图片
+
+    content = request.form.get("content")  # 新闻内容
+
+    source = "个人发布"
+
+    user = g.user
+
+    # 2.校验参数
+
+    if not all([title, category_id, digest, index_image, content]):
+        return jsonify(errno=RET.PARAMERR, errmsg="参数不足")
+
+    if not user:
+        return jsonify(errno=RET.SESSIONERR, errmsg="用户未登录")
+
+    # 3.逻辑处理
+    # 获取图片二进制数据
+
+    image_data = index_image.read()
+
+    try:
+        image_name = qiniu_image_store(image_data)
+
+    except Exception as e:
+        return jsonify(errno=RET.THIRDERR, errmsg="上传图片到七牛云失败")
+
+    news = News()
+
+    news.title = title
+
+    news.category_id = category_id
+
+    news.content = content
+
+    news.digest = digest
+
+    news.index_image_url = constants.QINIU_DOMIN_PREFIX + image_name
+
+    news.source = source
+
+    news.user_id = user.id
+
+    news.status = 1
+
+    try:
+
+        db.session.add(news)
+
+        db.session.commit()
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+        db.session.rollback()
+
+        return jsonify(errno=RET.DBERR, errmsg="保存新闻对象到数据库异常")
+
+    # 4.返回值处理
+    return jsonify(errno=RET.OK, errmsg="新闻发布成功")
+
