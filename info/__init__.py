@@ -141,4 +141,10 @@ def create_app(config_name):  # development-开发环境的app对象 production�
 
     app.register_blueprint(profile_bp)
 
+    # 注册后台管理员注册模块的蓝图
+
+    from info.module.admin import admin_bp
+
+    app.register_blueprint(admin_bp)
+
     return app
