@@ -1,5 +1,7 @@
 import qiniu
 
+import logging
+
 from flask import current_app
 
 access_key = "W0oGRaBkAhrcppAbz6Nc8-q5EcXfL5vLRashY4SI"

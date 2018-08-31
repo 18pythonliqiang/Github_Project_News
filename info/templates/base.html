@@ -24,10 +24,10 @@
             <!-- 用户登录后显示下面，隐藏上面 -->
             <div class="user_login fr">
                 <img src="{% if data.user_info.avatar_url %}{{ data.user_info.avatar_url }}
+                {% else %}../../static/news/images/person01.png
+                {% endif %}" class="lgin_pic">
 
-                    {% else %}../../static/news/images/person01.png{% endif %}" class="lgin_pic">
-
-                 <a id="nick_name" href="{{ url_for("profile.user_info") }}">{{ data.user_info.nick_name }}</a>
+                <a id="nick_name" href="{{ url_for("profile.user_info") }}">{{ data.user_info.nick_name }}</a>
                 <a href="javascript:;" onclick=login_out()>退出</a>
 
             </div>
@@ -54,9 +54,9 @@
 
         {% endblock %}
 
-{% block rank_title %}
+        {% block rank_title %}
 
-{% endblock %}
+        {% endblock %}
 
         <ul class="rank_list">
 

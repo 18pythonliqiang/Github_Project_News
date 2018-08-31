@@ -88,14 +88,22 @@ def base_info():
 @login_user_data
 def pic_info():
     #     展示用户头像页面，修改用户接口
-    if request.method == "GET":
-        return render_template("news/user_pic_info.html")
-
-    # 获取用户上传的图片二进制数据上传到七牛云
-    avatar_data = request.files.get("avatar").read()
 
     # 获取用户对象
     user = g.user
+
+    if request.method == "GET":
+        return render_template("news/user_pic_info.html",data ={"user_info": user.to_dict()})
+
+    # 获取用户上传的图片二进制数据上传到七牛云
+    try:
+        avatar_data = request.files.get("avatar").read()
+
+    except Exception as e:
+
+        current_app.logger.error(e)
+
+        return jsonify(errno=RET.PARAMERR, errmsg="读取文件出错")
 
     #  校验参数
     if not avatar_data:
