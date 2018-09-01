@@ -47,7 +47,10 @@
 
     {% endblock %}
 
-    <div class="rank_con fr">
+
+
+    {% block rankBlock %}
+        <div class="rank_con fr">
 
 
         {% block authorBlock %}
@@ -68,8 +71,13 @@
 
         </ul>
     </div>
+
+    {% endblock %}
+
 </div>
-<div class="footer">
+
+{% block bottomBlock %}
+    <div class="footer">
     <div class="footer_links">
         <a href="">关于我们</a>
         <span>|</span>
@@ -84,6 +92,8 @@
         电话：010-****888 京ICP备*******8号
     </p>
 </div>
+
+{% endblock %}
 
 <!-- 登录表单 -->
 <form class="login_form_con">

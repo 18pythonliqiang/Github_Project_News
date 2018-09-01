@@ -373,4 +373,7 @@ def login_out():
 
     session.pop("mobile")
 
+    # 清除管理员数据
+    session.pop("is_admin", None)
+
     return jsonify(errno=RET.OK, errmsg="退出登录成功")

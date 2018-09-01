@@ -82,22 +82,22 @@ def comment_like():
 
     else:
 
-    # 取消点赞：根据user_id 和 comment_id 查询CommentLike是否存在
+        # 取消点赞：根据user_id 和 comment_id 查询CommentLike是否存在
 
-    # 只有comment_like对象存在的时候才能去消除点赞
+        # 只有comment_like对象存在的时候才能去消除点赞
 
         comment_like = CommentLike.query.filter(CommentLike.user_id == user.id,
 
-                                            CommentLike.comment_id == comment_id).first()
+                                                CommentLike.comment_id == comment_id).first()
 
-    # CommentLike存在才取消点赞
+        # CommentLike存在才取消点赞
 
         if comment_like:
-        #             删除数据库数据
+            #             删除数据库数据
 
             db.session.delete(comment_like)
 
-        #             记录comment模型的点赞书-1
+            #             记录comment模型的点赞书-1
 
             comment.like_count -= 1
 
@@ -355,7 +355,7 @@ def news_detail(news_id):
 
             commentlike_model_list = CommentLike.query.filter(CommentLike.comment_id.in_(comment_id_list),
 
-                                                            CommentLike.user_id == user.id).all()
+                                                              CommentLike.user_id == user.id).all()
 
             # 3.comment_like.comment_id 通过上一步的模型列表，获取所有点赞的评论id
 
@@ -372,12 +372,11 @@ def news_detail(news_id):
 
         comment_dict = comment.to_dict()
 
-    #     评论点赞的标志位
+        #     评论点赞的标志位
 
         comment_dict["is_like"] = False
 
         if user and comment.id in commentlike_id_list:
-
             comment_dict["is_like"] = True
 
         comment_dict_list.append(comment_dict)

@@ -1,5 +1,5 @@
 
-from flask import Flask
+from flask import Flask,render_template
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -17,6 +17,9 @@ from logging.handlers import RotatingFileHandler
 
 from config import config_dict
 
+from flask import g,template_rendered
+
+from info.utlis.common import do_index_class,login_user_data
 
 # 为了解决循环导入我们需要延迟导入，我们需要蓝图导入放在真正需要注册蓝图的时候
 
@@ -111,6 +114,15 @@ def create_app(config_name):  # development-开发环境的app对象 production�
         response.set_cookie("csrf_token",csrf_token)
 
         return response
+
+    # 捕获页面404
+
+    @app.errorhandler(404)
+    @login_user_data
+    def page_not_find(e):
+        """页面找不到"""
+        user = g.user
+        return render_template("news/404.html", data={"user_info": user.to_dict() if user else None})
 
     # 注册过滤器
 
